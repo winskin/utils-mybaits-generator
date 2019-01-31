@@ -1,6 +1,7 @@
 package com.ravenddd.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +59,7 @@ public class MyGeneratorConfig {
         if (is != null) {
             Object obj = yaml.load(is);
             if (obj != null) {
-                map = (Map<String, Object>) obj;
+                map = JSON.parseObject(JSON.toJSONString(obj), new TypeReference<Map<String, Object>>(){});
             }
         }
 
