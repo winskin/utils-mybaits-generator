@@ -25,6 +25,7 @@ import java.util.Map;
 public class MyGeneratorConfig {
 
     private  String[] tableNames;
+    @Deprecated
     private  String classPath;
     private  String driverClass;
     private  String url;
@@ -65,7 +66,7 @@ public class MyGeneratorConfig {
 
         MyGeneratorConfig myGeneratorConfig = JSON.parseObject(JSON.toJSONString(map), this.getClass());
 
-        if (StringUtils.isBlank(myGeneratorConfig.getClassPath())) {
+        /*if (StringUtils.isBlank(myGeneratorConfig.getClassPath())) {
             // 获取驱动包路径
             try {
                 String driverClassPath = Class.forName(myGeneratorConfig.getDriverClass())
@@ -78,12 +79,13 @@ public class MyGeneratorConfig {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         if (StringUtils.isBlank(myGeneratorConfig.getProjectPath())) {
             // 默认获取项目路径
-            String[] projectPaths = MyGeneratorConfig.class.getResource("/").getPath().split("/target");
-            projectPath = projectPaths[0].replace("/", "\\").substring(1) + "\\" + "mybatis-generator" + "\\";
+            //String[] projectPaths = MyGeneratorConfig.class.getResource("/").getPath().split("/target");
+            //projectPath = projectPaths[0].replace("/", "\\").substring(1) + "\\" + "mybatis-generator" + "\\";
+            projectPath = System.getProperty("user.dir")+File.separator;
             // 处理中文路劲
             try {
                 projectPath = java.net.URLDecoder.decode(projectPath,"utf-8");
