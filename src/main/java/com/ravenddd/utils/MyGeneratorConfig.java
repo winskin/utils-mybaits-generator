@@ -18,29 +18,30 @@ import java.util.Map;
  * @Date 2017/12/10
  * @Time 17:31
  * @ClassName MyGeneratorConfig
- * @Description 配置信息,主要获取yml配置文件
+ * @Description 配置信息, 主要获取yml配置文件
  */
 @Data
 @Accessors(chain = true)
 public class MyGeneratorConfig {
 
-    private  String[] tableNames;
-    private  String classPath;
-    private  String driverClass;
-    private  String url;
-    private  String user;
-    private  String password;
-    private  String schema;
+    private String[] tableNames;
+    @Deprecated
+    private String classPath;
+    private String driverClass;
+    private String url;
+    private String user;
+    private String password;
+    private String schema;
     /**
      * 绝对路径项目根目录
      */
-    private  String projectPath;
-    private  String javaModelGeneratorPackage;
-    private  String javaModelGeneratorProject;
-    private  String javaClientGeneratorPackage;
-    private  String javaClientGeneratorProject;
-    private  String sqlMapGeneratorPackage;
-    private  String sqlMapGeneratorProject;
+    private String projectPath;
+    private String javaModelGeneratorPackage;
+    private String javaModelGeneratorProject;
+    private String javaClientGeneratorPackage;
+    private String javaClientGeneratorProject;
+    private String sqlMapGeneratorPackage;
+    private String sqlMapGeneratorProject;
 
     MyGeneratorConfig() {
 
@@ -48,6 +49,7 @@ public class MyGeneratorConfig {
 
     /**
      * 配置文件"generator.yml"
+     *
      * @param ymlName
      * @return
      */
@@ -59,13 +61,15 @@ public class MyGeneratorConfig {
         if (is != null) {
             Object obj = yaml.load(is);
             if (obj != null) {
-                map = JSON.parseObject(JSON.toJSONString(obj), new TypeReference<Map<String, Object>>(){});
+                map = JSON.parseObject(JSON.toJSONString(obj), new TypeReference<Map<String, Object>>() {
+                });
             }
         }
 
         MyGeneratorConfig myGeneratorConfig = JSON.parseObject(JSON.toJSONString(map), this.getClass());
 
-        if (StringUtils.isBlank(myGeneratorConfig.getClassPath())) {
+
+        /*if (StringUtils.isBlank(myGeneratorConfig.getClassPath())) {
             // 获取驱动包路径
             try {
                 String driverClassPath = Class.forName(myGeneratorConfig.getDriverClass())
@@ -78,15 +82,16 @@ public class MyGeneratorConfig {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         if (StringUtils.isBlank(myGeneratorConfig.getProjectPath())) {
             // 默认获取项目路径
-            String[] projectPaths = MyGeneratorConfig.class.getResource("/").getPath().split("/target");
-            projectPath = projectPaths[0].replace("/", "\\").substring(1) + "\\" + "mybatis-generator" + "\\";
+            //String[] projectPaths = MyGeneratorConfig.class.getResource("/").getPath().split("/target");
+            //projectPath = projectPaths[0].replace("/", "\\").substring(1) + "\\" + "mybatis-generator" + "\\";
+            projectPath = System.getProperty("user.dir") + File.separator + "mybatis-generator" + File.separator;
             // 处理中文路劲
             try {
-                projectPath = java.net.URLDecoder.decode(projectPath,"utf-8");
+                projectPath = java.net.URLDecoder.decode(projectPath, "utf-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -94,9 +99,9 @@ public class MyGeneratorConfig {
         }
 
         projectPath = myGeneratorConfig.getProjectPath();
-        myGeneratorConfig.setJavaModelGeneratorProject(projectPath + myGeneratorConfig.getJavaModelGeneratorProject());
-        myGeneratorConfig.setJavaClientGeneratorProject(projectPath + myGeneratorConfig.getJavaClientGeneratorProject());
-        myGeneratorConfig.setSqlMapGeneratorProject(projectPath + myGeneratorConfig.getSqlMapGeneratorProject());
+        myGeneratorConfig.setJavaModelGeneratorProject(projectPath + myGeneratorConfig.getJavaModelGeneratorProject().replaceAll("\\.", "/"));
+        myGeneratorConfig.setJavaClientGeneratorProject(projectPath + myGeneratorConfig.getJavaClientGeneratorProject().replaceAll("\\.", "/"));
+        myGeneratorConfig.setSqlMapGeneratorProject(projectPath + myGeneratorConfig.getSqlMapGeneratorProject().replaceAll("\\.", "/"));
 
         // 创建文件夹
         new File(myGeneratorConfig.getProjectPath()).mkdirs();
@@ -109,5 +114,11 @@ public class MyGeneratorConfig {
         System.out.println("mapperXml path:" + myGeneratorConfig.getSqlMapGeneratorProject());
 
         return myGeneratorConfig;
+    }
+
+    private void packageProjectEscape() {
+        setJavaModelGeneratorProject(getJavaModelGeneratorProject().replaceAll(".", File.separator));
+        setJavaClientGeneratorProject(getJavaClientGeneratorProject().replaceAll(".", File.separator));
+        setSqlMapGeneratorProject(getSqlMapGeneratorProject().replaceAll(".", File.separator));
     }
 }

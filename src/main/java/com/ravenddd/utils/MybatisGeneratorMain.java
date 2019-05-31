@@ -74,7 +74,8 @@ public class MybatisGeneratorMain {
 
         // --------- 校验,执行 ---------
         Configuration config = new Configuration();
-        config.addClasspathEntry(myGeneratorConfig.getClassPath());
+        //No need to set
+        //config.addClasspathEntry(myGeneratorConfig.getClassPath());
         config.addContext(context);
         DefaultShellCallback callback = new DefaultShellCallback(true);
 

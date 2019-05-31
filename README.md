@@ -29,7 +29,9 @@ password :
 
 # 项目所在的地址路径(若不设置,默认保存在target/所在根目录下新建mybatis-generator文件夹内)
 #projectPath : D:\...\
+
 # jar包的绝对路径(若不设置,默认根据driverClass包名自动获取)
+# 已废弃
 #classPath : D:\...\mysql-connector-java-5.1.40.jar
 
 # ------------------------- 项目配置 ----------------------------------
@@ -38,15 +40,15 @@ driverClass : com.mysql.jdbc.Driver
 
 # entity生成
 javaModelGeneratorPackage : com.cloud.utils.entity
-javaModelGeneratorProject : src\main\java
+javaModelGeneratorProject : src.main.java
 
 # mapper生成
 javaClientGeneratorPackage : com.cloud.utils.mapper
-javaClientGeneratorProject : src\main\java
+javaClientGeneratorProject : src.main.java
 
 # xml生成
 sqlMapGeneratorPackage : mapperXml
-sqlMapGeneratorProject : src\main\resources
+sqlMapGeneratorProject : src.main.resources
 
 ```
 

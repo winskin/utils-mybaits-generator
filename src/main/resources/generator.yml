@@ -1,6 +1,6 @@
 # 需要生成的表名
 tableNames :
-   - user_account
+   - table_name
 
 # ------------------------- 数据库连接 ----------------------------------
 
@@ -13,7 +13,9 @@ password :
 
 # 项目所在的地址路径(默认根据target/自动获取所在根目录, 目录下mybatis-generator文件夹, 也可自定义设置)
 #projectPath : D:\project\utils-mybaits-generator\
+
 # jar包的绝对路径(默认根据driverClass包名自动获取, 也可自定义设置)
+# 于maven插件配置，不需要在这里配置
 #classPath : D:\maven\local-repository\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar
 
 # ------------------------- 项目配置 ----------------------------------
@@ -21,10 +23,10 @@ password :
 driverClass : com.mysql.jdbc.Driver
 
 javaModelGeneratorPackage : com.cloud.utils.entity
-javaModelGeneratorProject : src\main\java
+javaModelGeneratorProject : src.main.java
 
 javaClientGeneratorPackage : com.cloud.utils.mapper
-javaClientGeneratorProject : src\main\java
+javaClientGeneratorProject : src.main.java
 
 sqlMapGeneratorPackage : mapperXml
-sqlMapGeneratorProject : src\main\resources
+sqlMapGeneratorProject : src.main.resources
