@@ -7,8 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
 import org.mybatis.generator.internal.DefaultShellCallback;
-import org.mybatis.generator.logging.Log;
-import org.mybatis.generator.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class MybatisGeneratorMain {
 
-    private Log logger = LogFactory.getLog(getClass());
+    private Logger logger = LoggerFactory.getLogger(MybatisGeneratorMain.class);
 
     private Context context = new Context(ModelType.FLAT);
     private List<String> warnings = new ArrayList<>();
@@ -87,7 +87,11 @@ public class MybatisGeneratorMain {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        logger.warn("warnings=" + warnings);
+
+        // 输出日志
+        if (warnings != null) {
+            warnings.forEach(warning -> logger.warn("warnings : {}", warning));
+        }
     }
 
     /**

@@ -1,12 +1,12 @@
 # 需要生成的表名
 tableNames :
-   - table_name
+   - test_user_info
 
 # ------------------------- 数据库连接 ----------------------------------
 
-url :
-user :
-password :
+url : jdbc:mysql://localhost:3306/test
+user : root
+password : 123456
 
 
 # ------------------------- 个人路径(改这里就可以) ----------------------------------
@@ -20,7 +20,7 @@ password :
 
 # ------------------------- 项目配置 ----------------------------------
 
-driverClass : com.mysql.jdbc.Driver
+driverClass : com.mysql.cj.jdbc.Driver
 
 javaModelGeneratorPackage : com.cloud.utils.entity
 javaModelGeneratorProject : src.main.java
