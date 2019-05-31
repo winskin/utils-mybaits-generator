@@ -1,5 +1,8 @@
 package com.ravenddd.utils;
 
+import com.ravenddd.utils.config.ConfigHandle;
+import com.ravenddd.utils.config.GeneratorConfigDto;
+import com.ravenddd.utils.introspected.MyIntrospectedTableMyBatis3Impl;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
@@ -27,12 +30,12 @@ public class MybatisGeneratorMain {
     /**
      * 获取配置
      */
-    private MyGeneratorConfig myGeneratorConfig = null;
+    private GeneratorConfigDto generatorConfigDto;
 
     public MybatisGeneratorMain(String ymlPath) {
 
         // 设置配置文件
-        this.myGeneratorConfig = new MyGeneratorConfig().getConfig(ymlPath);
+        this.generatorConfigDto = ConfigHandle.handle(ymlPath);
         // 生成
         generator();
     }
@@ -42,8 +45,8 @@ public class MybatisGeneratorMain {
      */
     private void generator() {
 
-        if (StringUtils.isNotBlank(myGeneratorConfig.getSchema())) {
-            myGeneratorConfig.setUrl(myGeneratorConfig.getUrl() + "/" + myGeneratorConfig.getSchema());
+        if (StringUtils.isNotBlank(generatorConfigDto.getSchema())) {
+            generatorConfigDto.setUrl(generatorConfigDto.getUrl() + "/" + generatorConfigDto.getSchema());
         }
 
         context.setId("prod");
@@ -67,15 +70,14 @@ public class MybatisGeneratorMain {
 
         javaClientGeneratorBuilder(context);
 
-        tableBuilder(context, myGeneratorConfig.getSchema(), myGeneratorConfig.getTableNames());
+        tableBuilder(context, generatorConfigDto.getSchema(), generatorConfigDto.getTableNames());
 
         // ---------- 配置信息 end ----------
 
 
         // --------- 校验,执行 ---------
         Configuration config = new Configuration();
-        //No need to set
-        //config.addClasspathEntry(myGeneratorConfig.getClassPath());
+        config.addClasspathEntry(generatorConfigDto.getClassPath());
         config.addContext(context);
         DefaultShellCallback callback = new DefaultShellCallback(true);
 
@@ -117,10 +119,10 @@ public class MybatisGeneratorMain {
      */
     private void jdbcConnectionBuilder(Context context) {
         JDBCConnectionConfiguration jdbc = new JDBCConnectionConfiguration();
-        jdbc.setConnectionURL(myGeneratorConfig.getUrl());
-        jdbc.setDriverClass(myGeneratorConfig.getDriverClass());
-        jdbc.setUserId(myGeneratorConfig.getUser());
-        jdbc.setPassword(myGeneratorConfig.getPassword());
+        jdbc.setConnectionURL(generatorConfigDto.getUrl());
+        jdbc.setDriverClass(generatorConfigDto.getDriverClass());
+        jdbc.setUserId(generatorConfigDto.getUser());
+        jdbc.setPassword(generatorConfigDto.getPassword());
         context.setJdbcConnectionConfiguration(jdbc);
     }
 
@@ -140,8 +142,8 @@ public class MybatisGeneratorMain {
      */
     private void javaModelGeneratorBuilder(Context context) {
         JavaModelGeneratorConfiguration javaModel = new JavaModelGeneratorConfiguration();
-        javaModel.setTargetPackage(myGeneratorConfig.getJavaModelGeneratorPackage());
-        javaModel.setTargetProject(myGeneratorConfig.getJavaModelGeneratorProject());
+        javaModel.setTargetPackage(generatorConfigDto.getJavaModelGeneratorPackage());
+        javaModel.setTargetProject(generatorConfigDto.getJavaModelGeneratorProject());
         javaModel.addProperty("trimStrings", "true");
         javaModel.addProperty("enableSubPackages", "true");
         context.setJavaModelGeneratorConfiguration(javaModel);
@@ -153,8 +155,8 @@ public class MybatisGeneratorMain {
      */
     private void sqlMapGeneratorBuilder(Context context) {
         SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
-        sqlMapGeneratorConfiguration.setTargetPackage(myGeneratorConfig.getSqlMapGeneratorPackage());
-        sqlMapGeneratorConfiguration.setTargetProject(myGeneratorConfig.getSqlMapGeneratorProject());
+        sqlMapGeneratorConfiguration.setTargetPackage(generatorConfigDto.getSqlMapGeneratorPackage());
+        sqlMapGeneratorConfiguration.setTargetProject(generatorConfigDto.getSqlMapGeneratorProject());
         sqlMapGeneratorConfiguration.addProperty("enableSubPackages", "true");
         context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
     }
@@ -165,8 +167,8 @@ public class MybatisGeneratorMain {
      */
     private void javaClientGeneratorBuilder(Context context) {
         JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
-        javaClientGeneratorConfiguration.setTargetPackage(myGeneratorConfig.getJavaClientGeneratorPackage());
-        javaClientGeneratorConfiguration.setTargetProject(myGeneratorConfig.getJavaClientGeneratorProject());
+        javaClientGeneratorConfiguration.setTargetPackage(generatorConfigDto.getJavaClientGeneratorPackage());
+        javaClientGeneratorConfiguration.setTargetProject(generatorConfigDto.getJavaClientGeneratorProject());
         javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
         javaClientGeneratorConfiguration.addProperty("enableSubPackages", "true");
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);

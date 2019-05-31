@@ -31,7 +31,6 @@ password :
 #projectPath : D:\...\
 
 # jar包的绝对路径(若不设置,默认根据driverClass包名自动获取)
-# 已废弃
 #classPath : D:\...\mysql-connector-java-5.1.40.jar
 
 # ------------------------- 项目配置 ----------------------------------

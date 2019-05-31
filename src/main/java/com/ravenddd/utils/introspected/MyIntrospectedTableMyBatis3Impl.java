@@ -1,4 +1,4 @@
-package com.ravenddd.utils;
+package com.ravenddd.utils.introspected;
 
 import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.dom.xml.Document;
