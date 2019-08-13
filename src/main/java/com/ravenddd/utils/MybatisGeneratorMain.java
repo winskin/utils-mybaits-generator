@@ -3,12 +3,11 @@ package com.ravenddd.utils;
 import com.ravenddd.utils.config.ConfigHandle;
 import com.ravenddd.utils.config.GeneratorConfigDto;
 import com.ravenddd.utils.introspected.MyIntrospectedTableMyBatis3Impl;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
 import org.mybatis.generator.internal.DefaultShellCallback;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +20,8 @@ import java.util.List;
  * @Description 用于生成库表代码mapper, 配置读取 generator.yml
  *              注意: Mybatis-Generator 1.3.5 xml默认追加合并且不支持修改, 1.3.6则支持追加
  */
+@Slf4j
 public class MybatisGeneratorMain {
-
-    private Logger logger = LoggerFactory.getLogger(MybatisGeneratorMain.class);
 
     private Context context = new Context(ModelType.FLAT);
     private List<String> warnings = new ArrayList<>();
@@ -57,6 +55,8 @@ public class MybatisGeneratorMain {
 
         pluginBuilder(context, "org.mybatis.generator.plugins.ToStringPlugin");
         pluginBuilder(context, "org.mybatis.generator.plugins.FluentBuilderMethodsPlugin");
+        pluginBuilder(context, "org.mybatis.generator.plugins.ToStringPlugin");
+        pluginBuilder(context, "org.mybatis.generator.plugins.SerializablePlugin");
 
         commentGeneratorBuilder(context);
 
@@ -90,7 +90,7 @@ public class MybatisGeneratorMain {
 
         // 输出日志
         if (warnings != null) {
-            warnings.forEach(warning -> logger.warn("warnings : {}", warning));
+            warnings.forEach(warning -> log.warn("warnings : {}", warning));
         }
     }
 

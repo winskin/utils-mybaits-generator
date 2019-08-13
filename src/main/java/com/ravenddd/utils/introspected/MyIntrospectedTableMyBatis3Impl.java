@@ -23,9 +23,11 @@ public class MyIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBatis3Im
         if (xmlMapperGenerator != null) {
             Document document = xmlMapperGenerator.getDocument();
             GeneratedXmlFile gxf = new GeneratedXmlFile(document,
-                    getMyBatis3XmlMapperFileName(), getMyBatis3XmlMapperPackage(),
+                    getMyBatis3XmlMapperFileName(),
+                    getMyBatis3XmlMapperPackage(),
                     context.getSqlMapGeneratorConfiguration().getTargetProject(),
-                    false, context.getXmlFormatter());
+                    false,
+                    context.getXmlFormatter());
             if (context.getPlugins().sqlMapGenerated(gxf, this)) {
                 answer.add(gxf);
             }

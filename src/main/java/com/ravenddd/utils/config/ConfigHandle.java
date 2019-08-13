@@ -2,10 +2,8 @@ package com.ravenddd.utils.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.ravenddd.utils.MybatisGeneratorMain;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -19,10 +17,8 @@ import java.util.Map;
  * @date 2019/5/31 9:39
  * @since 1.0
  */
+@Slf4j
 public class ConfigHandle {
-
-    private static Logger logger = LoggerFactory.getLogger(MybatisGeneratorMain.class);
-
 
     /**
      * 配置文件"generator.yml"
@@ -47,9 +43,9 @@ public class ConfigHandle {
         // 创建文件夹
         mkdir(generatorConfigDto);
 
-        logger.info("entity path: {}", generatorConfigDto.getJavaModelGeneratorProject());
-        logger.info("mapperJava path: {}", generatorConfigDto.getJavaClientGeneratorProject());
-        logger.info("mapperXml path: {}", generatorConfigDto.getSqlMapGeneratorProject());
+        log.info("entity path: {}", generatorConfigDto.getJavaModelGeneratorProject());
+        log.info("mapperJava path: {}", generatorConfigDto.getJavaClientGeneratorProject());
+        log.info("mapperXml path: {}", generatorConfigDto.getSqlMapGeneratorProject());
 
         return generatorConfigDto;
     }
